@@ -1,0 +1,22 @@
+From: confirmations@trafigura-markets.com
+To: ops-shell@example.com
+Subject: POTWIERDZENIE TRANSAKCJI / Trade Confirmation TFG-29415
+Date: Thu, 28 May 2026 16:02:55 +0000
+Content-Type: text/html; charset=utf-8
+
+<html>
+<body>
+<p>Dear Counterparty,</p>
+<table border="1" cellpadding="6" style="border-collapse: collapse;">
+  <tr style="background-color:#003366; color:white;">
+    <th colspan="2">TRAFIGURA MARKETS LTD - DEAL CONFIRMATION</th>
+  </tr>
+  <tr><td>Confirmation ID</td><td>TFG-29415</td></tr>
+  <tr><td>Trade Date</td><td>28/05/2026</td></tr>
+  <tr><td>Commodity</td><td>WTI Crude Oil</td></tr>
+  <tr><td>Quantity</td><td>60,000 MT</td></tr>
+  <tr><td>Unit Price</td><td>USD 79.85 / barrel</td></tr>
+  <tr><td>Delivery</td><td>FOB Houston, July 2026</td></tr>
+</table>
+</body>
+</html>

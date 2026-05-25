@@ -1,0 +1,19 @@
+From: confirmations@trafigura-markets.com
+To: ops-shell@example.com
+Subject: POTWIERDZENIE TRANSAKCJI TFG-29401
+Date: Tue, 26 May 2026 14:33:09 +0000
+Content-Type: text/html; charset=utf-8
+
+<html>
+<body>
+<h3>TRAFIGURA MARKETS LTD - DEAL CONFIRMATION</h3>
+<table border="1" cellpadding="5" style="border-collapse: collapse;">
+  <tr><td>Confirmation ID</td><td>TFG-29401</td></tr>
+  <tr><td>Trade Date</td><td>26/05/2026</td></tr>
+  <tr><td>Commodity</td><td>LNG (Liquefied Natural Gas)</td></tr>
+  <tr><td>Quantity</td><td>75,000 MT</td></tr>
+  <tr><td>Unit Price</td><td>USD 11.20 / MMBtu</td></tr>
+  <tr><td>Delivery</td><td>DES Gate Terminal Rotterdam, September 2026</td></tr>
+</table>
+</body>
+</html>

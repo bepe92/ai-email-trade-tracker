@@ -1,0 +1,9 @@
+.env
+*.json
+!sample_data/*.json
+__pycache__/
+*.pyc
+.venv/
+venv/
+output/
+service_account*.json

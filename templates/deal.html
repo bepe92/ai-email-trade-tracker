@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% set p = deal.parsed or {} %}
+  {% set is_pending = deal.status == STATUS_PENDING %}
+
+  <a class="back" href="{{ url_for('queue', status=deal.status) }}">← powrót do listy</a>
+
+  <h1 class="page-title">Deal review</h1>
+  <p class="page-sub">
+    Status:
+    <span class="pill pill--{{ deal.status }}">{{ deal.status.replace('_', ' ') }}</span>
+    · Otrzymano: {{ deal.created_at.replace('T', ' ') }}
+  </p>
+
+  <div class="split">
+    <section class="card card--llm">
+      <h2 class="card-title">
+        <span class="dot dot--llm"></span> LLM extracted data
+      </h2>
+      <p class="card-sub">Te dane Claude wyciągnął z maila. Porównaj z oryginałem po prawej.</p>
+
+      <dl class="kv">
+        <dt>Broker</dt>          <dd>{{ p.broker or '—' }}</dd>
+        <dt>Produkt</dt>         <dd>{{ p.product or '—' }}</dd>
+        <dt>Wolumen</dt>         <dd class="big">{{ p.volume_mt | fmt_num }} <span class="unit">MT</span></dd>
+        <dt>Cena</dt>            <dd class="big">{{ p.price_usd | fmt_num(2) }} <span class="unit">USD {{ p.price_unit or '' }}</span></dd>
+        <dt>Wartość transakcji</dt>
+        <dd class="huge">{{ total_usd | fmt_money }}</dd>
+        <dt>Trade date</dt>      <dd>{{ p.trade_date or '—' }}</dd>
+        <dt>Reference</dt>       <dd class="mono">{{ p.reference or '—' }}</dd>
+      </dl>
+
+      {% if deal.errors %}
+        <div class="errors">
+          <strong>Walidator zgłosił:</strong>
+          <ul>
+            {% for err in deal.errors %}<li>{{ err }}</li>{% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </section>
+
+    <section class="card card--raw">
+      <h2 class="card-title">
+        <span class="dot dot--raw"></span> Original email
+      </h2>
+      <p class="card-sub">Source: <code>{{ deal.source_id }}</code></p>
+      <pre class="raw">{{ deal.raw_body }}</pre>
+    </section>
+  </div>
+
+  {% if is_pending %}
+    <div class="actions">
+      <form method="post" action="{{ url_for('deal_approve', deal_id=deal.id) }}">
+        <button type="submit" class="btn btn--approve">✅ Approve — wpisz do księgi</button>
+      </form>
+      <form method="post" action="{{ url_for('deal_reject', deal_id=deal.id) }}" class="reject-form">
+        <input name="reason" type="text" placeholder="Powód odrzucenia (opcjonalnie)" maxlength="200">
+        <button type="submit" class="btn btn--reject">❌ Reject</button>
+      </form>
+    </div>
+    <p class="reviewer-note">Akcja zostanie zapisana pod kontem: <strong>{{ reviewer }}</strong></p>
+  {% else %}
+    <div class="audit">
+      <h3>Audit trail</h3>
+      <dl class="kv">
+        <dt>Reviewer</dt><dd>{{ deal.reviewed_by or '—' }}</dd>
+        <dt>Reviewed at</dt><dd>{{ (deal.reviewed_at or '—').replace('T', ' ') }}</dd>
+        {% if deal.reject_reason %}
+          <dt>Powód odrzucenia</dt><dd>{{ deal.reject_reason }}</dd>
+        {% endif %}
+      </dl>
+    </div>
+  {% endif %}
+{% endblock %}

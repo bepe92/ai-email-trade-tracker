@@ -1,0 +1,31 @@
+From: confirmations@trafigura-markets.com
+To: ops-shell@example.com
+Subject: POTWIERDZENIE TRANSAKCJI / Trade Confirmation TFG-29384
+Date: Mon, 25 May 2026 11:42:08 +0000
+Content-Type: text/html; charset=utf-8
+
+<html>
+<body>
+<p>Good morning,</p>
+<p>Please find the deal confirmation details below:</p>
+
+<table border="1" cellpadding="6" style="border-collapse: collapse;">
+  <tr style="background-color:#003366; color:white;">
+    <th colspan="2">TRAFIGURA MARKETS LTD - DEAL CONFIRMATION</th>
+  </tr>
+  <tr><td><b>Confirmation ID</b></td><td>TFG-29384</td></tr>
+  <tr><td><b>Trade Date</b></td><td>25/05/2026</td></tr>
+  <tr><td><b>Buyer</b></td><td>Shell International Trading &amp; Shipping</td></tr>
+  <tr><td><b>Seller</b></td><td>Trafigura Markets Ltd</td></tr>
+  <tr><td><b>Commodity</b></td><td>Natural Gas (Henry Hub)</td></tr>
+  <tr><td><b>Quantity</b></td><td>120,000 MT</td></tr>
+  <tr><td><b>Unit Price</b></td><td>USD 3.85 / MMBtu</td></tr>
+  <tr><td><b>Delivery Window</b></td><td>July 2026</td></tr>
+  <tr><td><b>Incoterms</b></td><td>DES Zeebrugge</td></tr>
+</table>
+
+<p>Best regards,<br>
+<b>Trafigura Operations Team</b><br>
+Geneva, Switzerland</p>
+</body>
+</html>

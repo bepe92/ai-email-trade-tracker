@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shell Deal Tracker — Trader Review</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo-mark">▲</span>
+      <span class="brand-name">Shell Deal Tracker</span>
+      <span class="brand-sub">Trader Review</span>
+    </div>
+    <div class="reviewer">
+      <span class="reviewer-label">Signed in as</span>
+      <span class="reviewer-email">{{ reviewer }}</span>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <a href="{{ url_for('queue', status=STATUS_PENDING) }}"
+       class="tab tab--pending {% if active_status == STATUS_PENDING %}is-active{% endif %}">
+      Pending review <span class="badge badge--pending">{{ counts[STATUS_PENDING] }}</span>
+    </a>
+    <a href="{{ url_for('queue', status=STATUS_CONFIRMED) }}"
+       class="tab tab--confirmed {% if active_status == STATUS_CONFIRMED %}is-active{% endif %}">
+      Confirmed <span class="badge badge--confirmed">{{ counts[STATUS_CONFIRMED] }}</span>
+    </a>
+    <a href="{{ url_for('queue', status=STATUS_MANUAL_REJECTED) }}"
+       class="tab tab--manual {% if active_status == STATUS_MANUAL_REJECTED %}is-active{% endif %}">
+      Manually rejected <span class="badge badge--rejected">{{ counts[STATUS_MANUAL_REJECTED] }}</span>
+    </a>
+    <a href="{{ url_for('queue', status=STATUS_AUTO_REJECTED) }}"
+       class="tab tab--auto {% if active_status == STATUS_AUTO_REJECTED %}is-active{% endif %}">
+      Auto-rejected <span class="badge badge--rejected">{{ counts[STATUS_AUTO_REJECTED] }}</span>
+    </a>
+  </nav>
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <span>Shell Deal Tracker · demo · stan: <code>output/state.json</code></span>
+  </footer>
+</body>
+</html>

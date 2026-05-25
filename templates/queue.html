@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% set titles = {
+    STATUS_PENDING: ('Deals czekające na zatwierdzenie', 'Trader weryfikuje dane i klika Approve lub Reject.'),
+    STATUS_CONFIRMED: ('Zatwierdzone transakcje', 'Te dane trafiają do risk managera jako źródło prawdy.'),
+    STATUS_MANUAL_REJECTED: ('Odrzucone manualnie', 'Trader odrzucił po przeglądzie. Powód zapisany w audycie.'),
+    STATUS_AUTO_REJECTED: ('Odrzucone automatycznie', 'LLM/walidator wykrył brakujące lub niepełne dane — brak działania tradera.'),
+  } %}
+
+  <h1 class="page-title">{{ titles[active_status][0] }}</h1>
+  <p class="page-sub">{{ titles[active_status][1] }}</p>
+
+  {% if deals|length == 0 %}
+    <div class="empty">
+      <p>Brak pozycji w tej kolejce.</p>
+    </div>
+  {% else %}
+    <table class="deals">
+      <thead>
+        <tr>
+          <th>Otrzymano</th>
+          <th>Broker</th>
+          <th>Produkt</th>
+          <th class="num">Wolumen (MT)</th>
+          <th class="num">Cena (USD)</th>
+          <th class="num">Wartość</th>
+          <th>Trade date</th>
+          <th>Ref.</th>
+          {% if active_status == STATUS_PENDING %}
+            <th></th>
+          {% elif active_status == STATUS_CONFIRMED or active_status == STATUS_MANUAL_REJECTED %}
+            <th>Reviewer</th>
+          {% else %}
+            <th>Powód</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for deal in deals %}
+          {% set p = deal.parsed or {} %}
+          <tr>
+            <td class="muted">{{ deal.created_at.replace('T', ' ') }}</td>
+            <td>{{ p.broker or '—' }}</td>
+            <td>{{ p.product or '—' }}</td>
+            <td class="num">{{ p.volume_mt | fmt_num }}</td>
+            <td class="num">{{ p.price_usd | fmt_num(2) }}</td>
+            <td class="num strong">{{ deal_total_usd(deal) | fmt_money }}</td>
+            <td>{{ p.trade_date or '—' }}</td>
+            <td class="muted">{{ p.reference or '—' }}</td>
+            {% if active_status == STATUS_PENDING %}
+              <td>
+                <a class="btn btn--ghost" href="{{ url_for('deal_detail', deal_id=deal.id) }}">Review →</a>
+              </td>
+            {% elif active_status == STATUS_CONFIRMED or active_status == STATUS_MANUAL_REJECTED %}
+              <td class="muted">
+                {{ deal.reviewed_by or '—' }}
+                {% if deal.reviewed_at %}<br><span class="tiny">{{ deal.reviewed_at.replace('T', ' ') }}</span>{% endif %}
+                {% if deal.reject_reason %}<br><span class="tiny rej">„{{ deal.reject_reason }}"</span>{% endif %}
+              </td>
+            {% else %}
+              <td class="muted">
+                {% for err in deal.errors %}
+                  <div class="tiny rej">{{ err }}</div>
+                {% endfor %}
+              </td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% endblock %}
