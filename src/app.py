@@ -113,10 +113,13 @@ def deal_reject(deal_id):
     return redirect(url_for("queue", status=STATUS_PENDING))
 
 
+PORT = int(os.environ.get("PORT", 5001))
+
+
 def _open_browser():
-    webbrowser.open("http://127.0.0.1:5000")
+    webbrowser.open(f"http://127.0.0.1:{PORT}")
 
 
 if __name__ == "__main__":
     threading.Timer(1.0, _open_browser).start()
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    app.run(host="127.0.0.1", port=PORT, debug=False)
